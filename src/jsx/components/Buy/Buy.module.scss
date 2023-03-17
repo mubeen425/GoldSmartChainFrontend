@@ -1,0 +1,17 @@
+.tokenDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 60px;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: lightblue;
+  }
+  .tokenDiv > p {
+    margin-left: 6px;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
