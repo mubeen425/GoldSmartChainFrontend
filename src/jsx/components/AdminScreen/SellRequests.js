@@ -24,7 +24,6 @@ function SellRequests(props) {
 
   const usr = JSON.parse(localStorage.getItem("user"));
   useEffect(async () => {
-
     if (!usr.is_admin) {
       props.history.push("/");
     }
@@ -32,14 +31,12 @@ function SellRequests(props) {
 
   useEffect(() => {
     axiosInstance.get(`api/solidhistory/getall`).then((res) => {
-     
       setData(res.data.filter((d) => d.type === "Sell"));
     });
   }, []);
 
   const getSellRequests = () => {
     axiosInstance.get(`api/solidhistory/getall`).then((res) => {
-   
       setData(res.data.filter((d) => d.type === "Sell"));
     });
   };
@@ -56,13 +53,11 @@ function SellRequests(props) {
     axiosInstance
       .put(`api/solidcoin/sellUpdate/${data.id}`, postData)
       .then((res) => {
-     
         setModalCentered(false);
         getSellRequests();
         setIsLoading(false);
       })
       .catch((err) => {
- 
         errorMessage(err.response.data || err.message);
         setIsLoading(false);
       });
@@ -78,11 +73,9 @@ function SellRequests(props) {
     </svg>
   );
   const viewBankDetails = (data) => {
-
     axiosInstance
       .get(`api/bankdetail/${data.user_id}`)
       .then((res) => {
-
         setBankData(
           res.data === null
             ? {
@@ -100,7 +93,6 @@ function SellRequests(props) {
         setBankModel(true);
       })
       .catch((err) => {
-    
         errorMessage(err.response.data || err.message);
       });
   };
@@ -451,6 +443,21 @@ function SellRequests(props) {
                 style={{ flex: 3 }}
               >
                 {bankData?.user_id}
+              </div>
+            </div>
+            <div className="d-flex justify-content-center align-items-center p-3">
+              <div
+                style={{ flex: 3 }}
+                className="d-flex  align-items-center justify-content-start text-uppercase fw-bold"
+              >
+                USER EMAIL
+              </div>
+              <div
+                style={{ flex: 3 }}
+                className="d-flex  align-items-center justify-content-center "
+              >
+                {bankData?.user?.email}
+                {console.log("bankData", bankData)}
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center p-3">

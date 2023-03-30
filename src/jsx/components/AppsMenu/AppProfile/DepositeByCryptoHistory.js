@@ -93,13 +93,12 @@ function DepositeByCryptoHistory() {
       <Col lg={12}>
         <TabelComponent
           cols={renderTable2()}
-          data={[...store?.coinReducer?.depositeByCrypto]
-            .map((obj, index) => {
-              return {
-                ...obj,
-                count: index + 1,
-              };
-            })}
+          data={[...store?.coinReducer?.depositeByCrypto].map((obj, index) => {
+            return {
+              ...obj,
+              count: index + 1,
+            };
+          })}
           tabeltitle={"Deposit By Crypto History"}
           itemsPerPage={8}
         />

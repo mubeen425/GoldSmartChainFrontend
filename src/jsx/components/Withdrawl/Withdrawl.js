@@ -39,6 +39,15 @@ function Withdrawl(props) {
 
   const widthDrawByCrypto2 = async (e) => {
     e.preventDefault();
+    // console.log(
+    //   "ali raza=",
+    //   withdraw.address === "0x0000000000000000000000000000000000000000"
+    // );
+    // 0x0000000000000000000000000000000000000000;
+    if (withdraw.address === "0x0000000000000000000000000000000000000000") {
+      errorMessage("❌ Please Enter a valid wallet address");
+      return;
+    }
     if (withdraw.coinType === "solid" && withdraw.amount < 0.0001) {
       errorMessage("❌ Minimum  withdraw amount required 0.0001");
       return;

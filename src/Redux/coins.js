@@ -29,9 +29,7 @@ export const getAllUserRewards = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       }
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const totalCommission = createAsyncThunk(
@@ -42,9 +40,7 @@ export const totalCommission = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       }
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const depositeByCrypto = createAsyncThunk(
@@ -55,9 +51,7 @@ export const depositeByCrypto = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       }
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const getUserWallet = createAsyncThunk(
@@ -68,21 +62,17 @@ export const getUserWallet = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       }
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const getSolidCoin = createAsyncThunk("getSolidCoin", async (userId) => {
   try {
     const res = await axiosInstance.get(`api/solidcoin/${userId}`);
-   
+
     if (res.status === 200) {
       return res?.data;
     }
-  } catch (err) {
-   
-  }
+  } catch (err) {}
 });
 export const getStandCoin = createAsyncThunk("getStandCoin", async (userId) => {
   try {
@@ -90,9 +80,7 @@ export const getStandCoin = createAsyncThunk("getStandCoin", async (userId) => {
     if (res.status === 200) {
       return res?.data;
     }
-  } catch (err) {
-   
-  }
+  } catch (err) {}
 });
 export const getUserWithdraw = createAsyncThunk(
   "getUserWithdraw",
@@ -105,9 +93,7 @@ export const getUserWithdraw = createAsyncThunk(
         });
         return nn.reverse();
       }
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const getUserDeposits = createAsyncThunk(
@@ -121,9 +107,7 @@ export const getUserDeposits = createAsyncThunk(
         });
         return nn.reverse();
       }
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   }
 );
 export const getSolidValue = createAsyncThunk("getSolidValue", async () => {
@@ -132,9 +116,7 @@ export const getSolidValue = createAsyncThunk("getSolidValue", async () => {
     if (res.status === 200) {
       return res?.data?.value;
     }
-  } catch (err) {
-   
-  }
+  } catch (err) {}
 });
 export const solidToStandExchangeRate = createAsyncThunk(
   "solidToStandExchangeRate",
@@ -145,9 +127,7 @@ export const solidToStandExchangeRate = createAsyncThunk(
       );
 
       return res.data;
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   }
 );
 export const witdrawlByCryptoH = createAsyncThunk(
@@ -156,9 +136,7 @@ export const witdrawlByCryptoH = createAsyncThunk(
     try {
       const res = await axiosInstance.get(`api/withdrawbycrypto/${userId}`);
       return res.data;
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 export const exchangeCoinTH = createAsyncThunk(
@@ -172,18 +150,14 @@ export const exchangeCoinTH = createAsyncThunk(
           count: index + 1,
         };
       });
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   }
 );
 export const solidCoinTH = createAsyncThunk("solidCoinTH", async (userId) => {
   try {
     const res = await axiosInstance.get(`api/solidhistory/${userId}`);
     return res.data;
-  } catch (err) {
-   
-  }
+  } catch (err) {}
 });
 export const getPlatformFeeSolidToken = createAsyncThunk(
   "getPlatformFeeSolidToken",
@@ -191,9 +165,7 @@ export const getPlatformFeeSolidToken = createAsyncThunk(
     try {
       const res = await axiosInstance.get(`api/solidcoin/platformfee`);
       return res.data;
-    } catch (err) {
-     
-    }
+    } catch (err) {}
   }
 );
 
@@ -205,13 +177,12 @@ export const solidToStandExchange = createAsyncThunk(
       const res = await axiosInstance.post(`api/exchangecoin`, postData, {
         headers: { csrf: "csrfToken_" + Date.now() },
       });
-     
+
       if (res.data) {
         successMessage("Stand to Solid Exchange Successfully !");
       }
       return res.data;
     } catch (err) {
-    
       errorMessage(
         err.response.data.message
           ? err.response.data.message
@@ -231,7 +202,6 @@ export const standToSolid = createAsyncThunk("standToSolid", async (data) => {
     }
     return res.data;
   } catch (err) {
-  
     errorMessage(
       err.response.data.message
         ? err.response.data.message
@@ -251,7 +221,6 @@ export const widthDrawByCrypto = createAsyncThunk(
       }
       return res;
     } catch (err) {
-     
       errorMessage(
         err.response.data.message
           ? err.response.data.message
@@ -270,7 +239,6 @@ export const widthDrawByFait = createAsyncThunk(
       }
       return res;
     } catch (err) {
-     
       errorMessage(err.response.data || err.message);
     }
   }
@@ -281,12 +249,10 @@ export const buySolidCoin = createAsyncThunk(
     try {
       const res = await axiosInstance.post(`api/solidcoin/buy`, postData);
       if (res.data) {
-       
         successMessage(`✔️${res.data}!`);
       }
       return res;
     } catch (err) {
-     
       errorMessage(
         err.response.data.message
           ? err.response.data.message
@@ -305,7 +271,6 @@ export const sellSolidCoin = createAsyncThunk("sellSolidCoin", async (data) => {
     }
     return res;
   } catch (err) {
-  
     errorMessage(
       err.response.data.message
         ? err.response.data.message
@@ -323,7 +288,6 @@ export const depositeAmount = createAsyncThunk(
       }
       return res;
     } catch (err) {
-    
       errorMessage(err.response.data || err.message);
     }
   }

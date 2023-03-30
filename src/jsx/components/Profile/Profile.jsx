@@ -12,13 +12,17 @@ import PageTitle from "../../layouts/PageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "@mui/material";
 import { useEffect } from "react";
-import { getBankDetails, updateBankDetails } from "../../../Redux/user";
+import {
+  getBankDetails,
+  getCurrentuser,
+  updateBankDetails,
+} from "../../../Redux/user";
 import { successMessage, errorMessage } from "../../../utils/message";
 
 const Profile = (props) => {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store.userReducer);
-
+  const [confirmBank, setConfirmBank] = useState("");
   const inputRef = useRef(null);
   const [profileImage, setProfileImage] = useState(null);
   const [profilePassword, setProfilePassword] = useState({
@@ -26,10 +30,12 @@ const Profile = (props) => {
     newPassword: "",
     passwordCheck: true,
   });
+  const [updatedData, setUpdatedData] = useState({});
+  const [updatedData2, setUpdatedData2] = useState({});
   const [profileInfo, setProfileInfo] = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
+    first_name: "",
+    last_name: "",
+    user_name: "",
     contact: "",
     email: "",
     emailCheck: true,
@@ -59,9 +65,9 @@ const Profile = (props) => {
   useEffect(async () => {
     setProfileInfo({
       ...profileInfo,
-      firstName: userReducer.currentUser.first_name,
-      lastName: userReducer.currentUser.last_name,
-      userName: userReducer.currentUser.user_name,
+      first_name: userReducer.currentUser.first_name,
+      last_name: userReducer.currentUser.last_name,
+      user_name: userReducer.currentUser.user_name,
       contact: userReducer.currentUser.contact,
       email: userReducer.currentUser.email,
       emailCheck: true,
@@ -119,31 +125,64 @@ const Profile = (props) => {
 
   const updateInfo = async (e) => {
     e.preventDefault();
-    const postData = {
-      user_name: profileInfo.userName,
-      first_name: profileInfo.firstName,
-      last_name: profileInfo.lastName,
-      contact: profileInfo.contact,
-      email: profileInfo.email,
-    };
+
+    // const postData = {
+    //   user_name: profileInfo.user_name,
+    //   first_name: profileInfo.first_name,
+    //   last_name: profileInfo.last_name,
+    //   contact: profileInfo.contact,
+    //   email: profileInfo.email,
+    // };
 
     axiosInstance
-      .put(`api/profile/${userReducer?.currentUser?.id}`, postData)
+      .put(
+        `api/profile/${userReducer?.currentUser?.id}`,
+        removeEmptyKeyPair(updatedData)
+      )
       .then((res) => {
-        successMessage("✔️ Profile Updated! Logging out");
+        successMessage("✔️ Profile Updated");
+        dispatch(getCurrentuser(userReducer?.currentUser?.id));
       })
       .catch((err) => {
         errorMessage(`❌ ${err.response.data}!`);
       });
   };
+  const removeEmptyKeyPair = (obj) => {
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] === "") {
+        delete obj[key];
+      }
+    });
+    console.log("res", obj);
+    return obj;
+  };
   const updateBankInfo = async (e) => {
     e.preventDefault();
-    dispatch(
-      updateBankDetails({
-        userId: userReducer?.currentUser?.id,
-        bankDetails: { ...bankDetails, user_id: userReducer?.currentUser?.id },
-      })
-    );
+    // console.log("userDetails===", bankDetails.account_number.length === 11);
+
+    if (
+      bankDetails.account_number.length === 14 ||
+      bankDetails.account_number.length === 11 ||
+      bankDetails.account_number.length === 16
+    ) {
+      if (bankDetails.account_number !== confirmBank) {
+        errorMessage(`❌ BANK account doesnot match`);
+        return;
+      }
+      dispatch(
+        updateBankDetails({
+          userId: userReducer?.currentUser?.id,
+          bankDetails: {
+            // ...updatedData2,
+            ...removeEmptyKeyPair(updatedData2),
+            user_id: userReducer?.currentUser?.id,
+          },
+        })
+      );
+    } else {
+      errorMessage("❌ Please enter valid IBAN or Bank Account");
+      return;
+    }
   };
   const updatePassword = async (e) => {
     e.preventDefault();
@@ -168,8 +207,16 @@ const Profile = (props) => {
 
   const handelChangeBankDetails = (e) => {
     setBankDetails({ ...bankDetails, [e.target.name]: e.target.value });
+    setUpdatedData2({ ...updatedData2, [e.target.name]: e.target.value });
   };
 
+  const handelUpdateProfile = (e) => {
+    setProfileInfo({
+      ...profileInfo,
+      [e.target.name]: e.target.value,
+    });
+    setUpdatedData({ ...updatedData, [e.target.name]: e.target.value });
+  };
   return (
     <Fragment>
       <PageTitle activeMenu="Profile" motherMenu="App" />
@@ -200,13 +247,9 @@ const Profile = (props) => {
                   <div className="form-group mb-3 col-md-6">
                     <h5>First Name</h5>
                     <input
-                      value={profileInfo.firstName}
-                      onChange={(e) =>
-                        setProfileInfo({
-                          ...profileInfo,
-                          firstName: e.target.value,
-                        })
-                      }
+                      value={profileInfo.first_name}
+                      name="first_name"
+                      onChange={(e) => handelUpdateProfile(e)}
                       type="text"
                       className="form-control"
                       placeholder="John"
@@ -215,13 +258,9 @@ const Profile = (props) => {
                   <div className="form-group mb-3 col-md-6">
                     <h5>Last Name</h5>
                     <input
-                      value={profileInfo.lastName}
-                      onChange={(e) =>
-                        setProfileInfo({
-                          ...profileInfo,
-                          lastName: e.target.value,
-                        })
-                      }
+                      value={profileInfo.last_name}
+                      name="last_name"
+                      onChange={(e) => handelUpdateProfile(e)}
                       type="text"
                       className="form-control"
                       placeholder="Doe"
@@ -230,13 +269,9 @@ const Profile = (props) => {
                   <div className="form-group mb-3 col-md-6">
                     <h5>Username</h5>
                     <input
-                      value={profileInfo.userName}
-                      onChange={(e) =>
-                        setProfileInfo({
-                          ...profileInfo,
-                          userName: e.target.value,
-                        })
-                      }
+                      value={profileInfo.user_name}
+                      name="user_name"
+                      onChange={(e) => handelUpdateProfile(e)}
                       type="text"
                       className="form-control"
                       placeholder="Jodoe"
@@ -246,12 +281,8 @@ const Profile = (props) => {
                     <h5>Phone</h5>
                     <input
                       value={profileInfo.contact}
-                      onChange={(e) =>
-                        setProfileInfo({
-                          ...profileInfo,
-                          contact: e.target.value,
-                        })
-                      }
+                      name="contact"
+                      onChange={(e) => handelUpdateProfile(e)}
                       type="number"
                       className="form-control"
                       placeholder="+1 234 468"
@@ -263,12 +294,8 @@ const Profile = (props) => {
                     <input
                       value={profileInfo.email}
                       onBlur={focusChangeEmail}
-                      onChange={(e) =>
-                        setProfileInfo({
-                          ...profileInfo,
-                          email: e.target.value,
-                        })
-                      }
+                      name="email"
+                      onChange={(e) => handelUpdateProfile(e)}
                       type="email"
                       className="form-control"
                       placeholder="jodoe@gsc.com"
@@ -286,7 +313,7 @@ const Profile = (props) => {
                     type="submit"
                     className="btn btn-primary text-center w-25"
                   >
-                    Update
+                    Update Profile
                   </button>
                 </div>
               </form>
@@ -330,6 +357,17 @@ const Profile = (props) => {
                     <input
                       value={bankDetails.account_number}
                       onChange={(e) => handelChangeBankDetails(e)}
+                      name="account_number"
+                      type="text"
+                      className="form-control"
+                      placeholder="IBAN or Bank Account"
+                    />
+                  </div>
+                  <div className="form-group mb-3 col-md-6">
+                    <h5>Confirm IBAN or Bank Account</h5>
+                    <input
+                      value={confirmBank}
+                      onChange={(e) => setConfirmBank(e.target.value)}
                       name="account_number"
                       type="text"
                       className="form-control"
@@ -399,7 +437,7 @@ const Profile = (props) => {
                     type="submit"
                     className="btn btn-primary text-center w-25"
                   >
-                    Update
+                    Update Bank Details
                   </button>
                 </div>
               </form>

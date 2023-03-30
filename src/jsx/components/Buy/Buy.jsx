@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
+import Dropdown from "react-bootstrap/Dropdown";
 import { ToastContainer, toast } from "react-toastify";
 import PageTitle from "../../layouts/PageTitle";
 import solidCoin from "../../../images/solid.png";
@@ -21,10 +22,10 @@ function Buy(props) {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store?.userReducer);
   const coinReducer = useSelector((store) => store?.coinReducer);
+  const [drop, setDrop] = useState("");
   const [buyAmount, setBuyAmount] = useState({ usd: 1, solid: 1 });
 
   const changeAmountUsd = (e) => {
-    
     setBuyAmount({
       ...buyAmount,
       usd: e.target.value,
@@ -40,7 +41,6 @@ function Buy(props) {
   };
 
   const notifyTopRight = async (e) => {
-  
     if (buyAmount.solid <= 0) {
       errorMessage("❌ Invalid  solid amount(minimum amount required 1)");
       return;
@@ -77,11 +77,44 @@ function Buy(props) {
   useEffect(() => {
     setBuyAmount({ ...buyAmount, usd: coinReducer?.solidValue });
   }, [coinReducer?.solidValue]);
+
+  const handelSelect = (val) => {
+    setDrop(val);
+  };
+
   return (
     <>
       <PageTitle motherMenu="Home" activeMenu="Buy" />
       <div className="d-flex align-items-center justify-content-center">
         <div className="col-xl-8 col-lg-8">
+          <div className="py-2">
+            <Dropdown className="d-inline mx-2 ">
+              <Dropdown.Toggle id="dropdown-autoclose-true">
+                {drop == "" ? "Choose Currency" : drop}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={(e) => handelSelect("EUR")}>
+                  EUR
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handelSelect("USD")}>
+                  USD
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handelSelect("GBP")}>
+                  GBP
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handelSelect("AUD")}>
+                  AUD
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handelSelect("CAD")}>
+                  CAD
+                </Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handelSelect("HUF")}>
+                  HUF
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
           <div className="card">
             <div className="card-header justify-content-around">
               <h4 className="card-title">International Users</h4>
@@ -89,15 +122,83 @@ function Buy(props) {
             </div>
             <div className="card-body">
               <div className="d-flex  align-items-center justify-content-around">
+                {(drop == "EUR" || drop == "") && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>BIC : TRWIBEB1XXX</div>
+                    <div>IBAN : BE36 9675 1862 2081</div>
+                    <div>
+                      Wise's Address: Avenue Louise 54, Room S52 Brussels 1050
+                      Belgium
+                    </div>
+                  </div>
+                )}
+                {drop == "USD" && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>ACH & Wire Routing No : 084009519</div>
+                    <div>IBAN : BE36 9675 1862 2081</div>
+                    <div>Account No : 9600011162635472</div>
+                    <div>Account Type : Checking </div>
+                    <div>
+                      Wise's Address: Avenue Louise 54, Room S52 Brussels 1050
+                      Belgium
+                    </div>
+                  </div>
+                )}
+                {drop == "GBP" && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>Sort Code : 23-14-70</div>
+                    <div>Account No : 36271055</div>
+                    <div>IBAN : GB09 TRWI 2314 7036 2710 55</div>
+                    <div>
+                      Wise's Address: 56 Shoreditch High Street London E1 6JJ
+                      United Kingdom
+                    </div>
+                  </div>
+                )}
+                {drop == "AUD" && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>BSB Code: 802-985</div>
+                    <div>Account No : 910793682</div>
+                    <div>
+                      Wise's Address: 36-38 Gipps Street Collingwood 3066
+                      Australia
+                    </div>
+                  </div>
+                )}
+                {drop == "CAD" && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>Institution Number : 621</div>
+                    <div>Account No : 200110487600</div>
+                    <div>Transit Number : 16001</div>
+                    <div>
+                      Wise's Address: 99 Bank Street, Suite 1420 Ottawa ON K1P
+                      1H4 Canada
+                    </div>
+                  </div>
+                )}
+                {drop == "HUF" && (
+                  <div>
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>Account No : 12600016-0000xxxx-xxxxxxxx</div>
+                    <div>
+                      Wise's Address: Avenue Louise 54, Room S52 Brussels 1050
+                      Belgium
+                    </div>
+                  </div>
+                )}
                 <div>
                   <div>STANDARD IN GOLD E.U.</div>
-                  <div>BIC/SWIFT-Code : TRWIBEB1XXX</div>
-                  <div>IBAN : BE36  9675 1862 2081</div>
-                </div>
-                <div>
-                  <div>STANDARD IN GOLD E.U.</div>
-                  <div>BIC: TRWIBEB1XXX</div>
+                  <div>SWIFT/BIC : TRWIBEB1XXX</div>
                   <div>IBAN: BE36 9675 1862 2081</div>
+                  <div>
+                    Wise's Address : Avenue Louise 54, Room S52 Brussels 1050
+                    Belgium
+                  </div>
                 </div>
               </div>
             </div>
