@@ -22,7 +22,7 @@ function Buy(props) {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store?.userReducer);
   const coinReducer = useSelector((store) => store?.coinReducer);
-  const [drop, setDrop] = useState("");
+  const [drop, setDrop] = useState("EUR");
   const [buyAmount, setBuyAmount] = useState({ usd: 1, solid: 1 });
 
   const changeAmountUsd = (e) => {
@@ -90,7 +90,7 @@ function Buy(props) {
           <div className="py-2">
             <Dropdown className="d-inline mx-2 ">
               <Dropdown.Toggle id="dropdown-autoclose-true">
-                {drop == "" ? "Choose Currency" : drop}
+                {drop}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
@@ -116,13 +116,17 @@ function Buy(props) {
             </Dropdown>
           </div>
           <div className="card">
-            <div className="card-header justify-content-around">
-              <h4 className="card-title">International Users</h4>
-              <h4 className="card-title">Non EU Users</h4>
+            <div className="card-header" style={{ padding: "20px 30px" }}>
+              <h4 className="card-title w-50">
+                {drop === "EUR" ? "EU Users" : `Buy For ${drop}`}{" "}
+              </h4>
+              {drop === "EUR" && (
+                <h4 className="card-title w-50">Non EU Users</h4>
+              )}
             </div>
             <div className="card-body">
               <div className="d-flex  align-items-center justify-content-around">
-                {(drop == "EUR" || drop == "") && (
+                {drop == "EUR" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>BIC : TRWIBEB1XXX</div>
@@ -191,15 +195,17 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                <div>
-                  <div>STANDARD IN GOLD E.U.</div>
-                  <div>SWIFT/BIC : TRWIBEB1XXX</div>
-                  <div>IBAN: BE36 9675 1862 2081</div>
+                {drop === "EUR" && (
                   <div>
-                    Wise's Address : Avenue Louise 54, Room S52 Brussels 1050
-                    Belgium
+                    <div>STANDARD IN GOLD E.U.</div>
+                    <div>SWIFT/BIC : TRWIBEB1XXX</div>
+                    <div>IBAN: BE36 9675 1862 2081</div>
+                    <div>
+                      Wise's Address : Avenue Louise 54, Room S52 Brussels 1050
+                      Belgium
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
