@@ -6,7 +6,7 @@ import PageTitle from "../../layouts/PageTitle";
 import solidCoin from "../../../images/solid.png";
 import CurrencyFormat from "react-currency-format";
 import styles from "./Buy.module.scss";
-import { successMessage, errorMessage } from "../../../utils/message";
+import { successMessage, errorMessage, symbol } from "../../../utils/message";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserWallet,
@@ -14,6 +14,7 @@ import {
   getSolidValue,
   buySolidCoin,
   getStandCoin,
+  getExchangeRates,
 } from "../../../Redux/coins";
 import { valueFormatter } from "../../../services/valueFormatter";
 const cookies = new Cookies();
@@ -22,21 +23,24 @@ function Buy(props) {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store?.userReducer);
   const coinReducer = useSelector((store) => store?.coinReducer);
+  const [oneSolidActualValue, setOneSolidActualValue] = useState(0);
   const [drop, setDrop] = useState("EUR");
+  const [drop2, setDrop2] = useState("USD");
+  const [OneSolidValue, setOneSolidValue] = useState(0);
   const [buyAmount, setBuyAmount] = useState({ usd: 1, solid: 1 });
 
   const changeAmountUsd = (e) => {
     setBuyAmount({
       ...buyAmount,
       usd: e.target.value,
-      solid: Number(e.target.value / coinReducer?.solidValue),
+      solid: Number(e.target.value / OneSolidValue),
     });
   };
   const changeAmountSolid = (e) => {
     setBuyAmount({
       ...buyAmount,
       solid: e.target.value,
-      usd: Number(e.target.value * coinReducer?.solidValue),
+      usd: Number(e.target.value * OneSolidValue),
     });
   };
 
@@ -54,6 +58,7 @@ function Buy(props) {
         user_id: userReducer?.currentUser?.id,
         solid_coin: parseFloat(buyAmount.solid),
         invest_amount: parseFloat(buyAmount.usd),
+        currecytype: drop2,
       };
       let response = await dispatch(buySolidCoin(postData));
       dispatch(getSolidCoin(userReducer?.currentUser?.id));
@@ -74,12 +79,50 @@ function Buy(props) {
     }
   }, []);
 
+  const getDataForOneSolid = async (dropValue) => {
+    let res = await dispatch(
+      getExchangeRates({
+        amount: 1,
+        from: "USD",
+        to: dropValue,
+      })
+    );
+    // return res.payload;
+    setOneSolidActualValue(res.payload * coinReducer?.solidValue);
+  };
+
+  const getData = async (dropValue, solidInputValue) => {
+    let res = await dispatch(
+      getExchangeRates({
+        amount: coinReducer?.solidValue,
+        from: "USD",
+        to: dropValue,
+      })
+    );
+    console.log("response", res);
+    setBuyAmount({
+      ...buyAmount,
+      usd: res.payload * (solidInputValue ? solidInputValue : 1),
+    });
+    setOneSolidValue(res.payload);
+  };
+  useEffect(async () => {
+    await getDataForOneSolid(drop2);
+    await getData(drop2);
+  }, [coinReducer?.solidValue]);
+
   useEffect(() => {
     setBuyAmount({ ...buyAmount, usd: coinReducer?.solidValue });
   }, [coinReducer?.solidValue]);
 
   const handelSelect = (val) => {
     setDrop(val);
+  };
+
+  const handelSelect2 = (val) => {
+    setDrop2(val);
+    getData(val, buyAmount.solid);
+    getDataForOneSolid(val);
   };
 
   return (
@@ -90,26 +133,26 @@ function Buy(props) {
           <div className="py-2">
             <Dropdown className="d-inline mx-2 ">
               <Dropdown.Toggle id="dropdown-autoclose-true">
-                {drop}
+                {drop2}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={(e) => handelSelect("EUR")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("EUR")}>
                   EUR
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handelSelect("USD")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("USD")}>
                   USD
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handelSelect("GBP")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("GBP")}>
                   GBP
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handelSelect("AUD")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("AUD")}>
                   AUD
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handelSelect("CAD")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("CAD")}>
                   CAD
                 </Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handelSelect("HUF")}>
+                <Dropdown.Item onClick={(e) => handelSelect2("HUF")}>
                   HUF
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -118,15 +161,15 @@ function Buy(props) {
           <div className="card">
             <div className="card-header" style={{ padding: "20px 30px" }}>
               <h4 className="card-title w-50">
-                {drop === "EUR" ? "EU Users" : `Buy For ${drop}`}{" "}
+                {drop2 === "EUR" ? "EU Users" : `Buy For ${drop2}`}{" "}
               </h4>
-              {drop === "EUR" && (
+              {drop2 === "EUR" && (
                 <h4 className="card-title w-50">Non EU Users</h4>
               )}
             </div>
             <div className="card-body">
               <div className="d-flex  align-items-center justify-content-around">
-                {drop == "EUR" && (
+                {drop2 == "EUR" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>BIC : TRWIBEB1XXX</div>
@@ -137,7 +180,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop == "USD" && (
+                {drop2 == "USD" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>ACH & Wire Routing No : 084009519</div>
@@ -150,7 +193,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop == "GBP" && (
+                {drop2 == "GBP" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>Sort Code : 23-14-70</div>
@@ -162,7 +205,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop == "AUD" && (
+                {drop2 == "AUD" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>BSB Code: 802-985</div>
@@ -173,7 +216,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop == "CAD" && (
+                {drop2 == "CAD" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>Institution Number : 621</div>
@@ -185,7 +228,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop == "HUF" && (
+                {drop2 == "HUF" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>Account No : 12600016-0000xxxx-xxxxxxxx</div>
@@ -195,7 +238,7 @@ function Buy(props) {
                     </div>
                   </div>
                 )}
-                {drop === "EUR" && (
+                {drop2 === "EUR" && (
                   <div>
                     <div>STANDARD IN GOLD E.U.</div>
                     <div>SWIFT/BIC : TRWIBEB1XXX</div>
@@ -247,8 +290,35 @@ function Buy(props) {
                   className="border-0 w-100"
                   onWheel={(e) => e.target.blur()}
                 />
-                <div className={styles["tokenDiv"]}>
-                  <span>$USD</span>
+                <div
+                // className={styles["tokenDiv"]}
+                >
+                  <Dropdown className="d-inline mx-2 ">
+                    <Dropdown.Toggle id="dropdown-autoclose-true px-2">
+                      {drop2}
+                    </Dropdown.Toggle>
+
+                    {/* <Dropdown.Menu>
+                      <Dropdown.Item onClick={(e) => handelSelect2("EUR")}>
+                        EUR
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => handelSelect2("USD")}>
+                        USD
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => handelSelect2("GBP")}>
+                        GBP
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => handelSelect2("AUD")}>
+                        AUD
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => handelSelect2("CAD")}>
+                        CAD
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => handelSelect2("HUF")}>
+                        HUF
+                      </Dropdown.Item>
+                    </Dropdown.Menu> */}
+                  </Dropdown>
                 </div>
               </div>
             </div>
@@ -301,11 +371,12 @@ function Buy(props) {
               <span className="d-flex">
                 <span className="mx-1">1 SOLID =</span>
                 <CurrencyFormat
-                  value={coinReducer?.solidValue}
+                  // value={coinReducer?.solidValue}
+                  value={oneSolidActualValue}
                   displayType={"text"}
                   // decimalScale={2}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={symbol[drop2]}
                   fixedDecimalScale={true}
                   renderText={(value) => <span>{value}</span>}
                 />

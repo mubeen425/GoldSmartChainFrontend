@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../services/AxiosInstance";
+import axios from "axios";
 import { successMessage, errorMessage } from "../utils/message";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -21,6 +22,27 @@ const initialState = {
   allUserRewards: [],
 };
 // get requests
+export const getExchangeRates = createAsyncThunk(
+  "getExchangeRates",
+  async (data) => {
+    try {
+      if (data.amount === 0) {
+        return 0;
+      } else if (data.from === data.to) {
+        return data.amount;
+      } else {
+        const res = await axios.get(
+          `https://api.frankfurter.app/latest?amount=${data.amount}&from=${data.from}&to=${data.to}`
+        );
+        if (res.status === 200) {
+          return res.data.rates[data.to];
+        }
+      }
+    } catch (err) {
+      console.log("exchange rates error ===", err);
+    }
+  }
+);
 export const getAllUserRewards = createAsyncThunk(
   "getAllUserRewards",
   async () => {

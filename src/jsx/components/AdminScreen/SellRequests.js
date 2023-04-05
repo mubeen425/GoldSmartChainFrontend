@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../../services/AxiosInstance";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 import { Badge, Button, Col, Dropdown, Modal } from "react-bootstrap";
 import CurrencyFormat from "react-currency-format";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,13 +10,15 @@ import { withdrawRequests } from "../../../Strings/Strings";
 import PageTitle from "../../layouts/PageTitle";
 import TabelComponent from "../../layouts/TabelComponent";
 import { valueFormatter } from "../../../services/valueFormatter";
-import { errorMessage } from "../../../utils/message";
+import { errorMessage, symbol } from "../../../utils/message";
 
 function SellRequests(props) {
+  const coinReducer = useSelector((store) => store?.coinReducer);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingId, setLoadingId] = useState();
   const [modalCentered, setModalCentered] = useState(false);
   const [data, setData] = useState([]);
+  const [rates, setRates] = useState([]);
   const [activeId, setActiveId] = useState(0);
   const [reason, setReason] = useState("");
 
@@ -136,9 +139,9 @@ function SellRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={symbol[rowData?.currecytype]}
               fixedDecimalScale={true}
-              renderText={(value) => <span className="mb-0">{value}</span>}
+              renderText={(value) => <span className="mb-0 mx-1">{value}</span>}
             />
           );
         },
@@ -152,9 +155,9 @@ function SellRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={symbol[rowData?.currecytype]}
               fixedDecimalScale={true}
-              renderText={(value) => <span className="mb-0">{value}</span>}
+              renderText={(value) => <span className="mb-0 mx-1">{value}</span>}
             />
           );
         },
@@ -293,9 +296,9 @@ function SellRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={symbol[rowData?.currecytype]}
               fixedDecimalScale={true}
-              renderText={(value) => <span className="mb-0">{value}</span>}
+              renderText={(value) => <span className="mb-0 mx-1">{value}</span>}
             />
           );
         },
@@ -309,9 +312,13 @@ function SellRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={
+                // <span style={{ paddingRight: "20px" }}>
+                symbol[rowData?.currecytype]
+                // {/* </span> */}
+              }
               fixedDecimalScale={true}
-              renderText={(value) => <span className="mb-0">{value}</span>}
+              renderText={(value) => <span className="mb-0 mx-1">{value}</span>}
             />
           );
         },

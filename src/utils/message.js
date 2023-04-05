@@ -21,3 +21,12 @@ export const errorMessage = (message) => {
     progress: undefined,
   });
 };
+
+export const symbol = {
+  EUR: "€",
+  USD: "$",
+  GBP: "£",
+  AUD: "A$",
+  CAD: "C$",
+  HUF: "Ft",
+};

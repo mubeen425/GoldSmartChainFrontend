@@ -9,7 +9,7 @@ import { withdrawRequests } from "../../../Strings/Strings";
 import PageTitle from "../../layouts/PageTitle";
 import TabelComponent from "../../layouts/TabelComponent";
 import { valueFormatter } from "../../../services/valueFormatter";
-import { errorMessage } from "../../../utils/message";
+import { errorMessage, symbol } from "../../../utils/message";
 
 function BuyRequests(props) {
   const [modalCentered, setModalCentered] = useState(false);
@@ -21,7 +21,6 @@ function BuyRequests(props) {
 
   const usr = JSON.parse(localStorage.getItem("user"));
   useEffect(async () => {
-
     if (!usr.is_admin) {
       props.history.push("/");
     }
@@ -29,14 +28,12 @@ function BuyRequests(props) {
 
   useEffect(() => {
     axiosInstance.get(`api/solidhistory/getall`).then((res) => {
-   
       setData(res.data.filter((d) => d.type === "Buy"));
     });
   }, []);
 
   const getBuyRequests = () => {
     axiosInstance.get(`api/solidhistory/getall`).then((res) => {
-   
       setData(res.data.filter((d) => d.type === "Buy"));
     });
   };
@@ -53,15 +50,13 @@ function BuyRequests(props) {
     axiosInstance
       .put(`api/solidcoin/buyUpdate/${data.id}`, postData)
       .then((res) => {
-     
         setModalCentered(false);
         getBuyRequests();
         setIsLoading(false);
       })
       .catch((err) => {
-    
         errorMessage(err.response.data || err.message);
-        setIsLoading(false)
+        setIsLoading(false);
       });
   };
   const svg1 = (
@@ -113,7 +108,7 @@ function BuyRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={symbol[rowData?.currecytype]}
               fixedDecimalScale={true}
               renderText={(value) => <span className="mb-0">{value}</span>}
             />
@@ -256,7 +251,7 @@ function BuyRequests(props) {
               displayType={"text"}
               // decimalScale={2}
               thousandSeparator={true}
-              prefix={"$"}
+              prefix={symbol[rowData?.currecytype]}
               fixedDecimalScale={true}
               renderText={(value) => <span className="mb-0">{value}</span>}
             />
