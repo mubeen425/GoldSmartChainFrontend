@@ -299,6 +299,64 @@ function Sell(props) {
                 />
               </span>
             </div>
+            <div className="col-xl-6 col-lg-6 m-auto  d-flex justify-content-between my-2">
+              <span>
+                Total =
+                <CurrencyFormat
+                  value={buyAmount.usd}
+                  displayType={"text"}
+                  decimalScale={2}
+                  thousandSeparator={true}
+                  prefix={symbol[drop2]}
+                  fixedDecimalScale={true}
+                  renderText={(value) => <span>{value}</span>}
+                />
+              </span>
+            </div>
+            <div className="col-xl-6 col-lg-6 m-auto  d-flex justify-content-between ">
+              <span>
+                Platform Fee =
+                <CurrencyFormat
+                  value={buyAmount.usd * 0.18}
+                  displayType={"text"}
+                  decimalScale={2}
+                  thousandSeparator={true}
+                  prefix={symbol[drop2]}
+                  fixedDecimalScale={true}
+                  renderText={(value) => <span>{value}</span>}
+                />{" "}
+                {" (18%)"}
+                {/*                 
+                {symbol[drop2]}
+                {buyAmount.usd * 0.18} */}
+              </span>
+              <span className="d-flex">
+                <span className="mx-1">
+                  You will Receive =
+                  <CurrencyFormat
+                    value={buyAmount.usd - buyAmount.usd * 0.18}
+                    displayType={"text"}
+                    decimalScale={2}
+                    thousandSeparator={true}
+                    prefix={symbol[drop2]}
+                    fixedDecimalScale={true}
+                    renderText={(value) => <span>{value}</span>}
+                  />
+                  {/* {symbol[drop2]}
+                  {buyAmount.usd - buyAmount.usd * 0.18} */}
+                </span>
+                {/* <CurrencyFormat
+                  // value={coinReducer?.solidValue}
+                  value={oneSolidActualValue}
+                  displayType={"text"}
+                  decimalScale={2}
+                  thousandSeparator={true}
+                  prefix={symbol[drop2]}
+                  fixedDecimalScale={true}
+                  renderText={(value) => <span>{value}</span>}
+                /> */}
+              </span>
+            </div>
 
             <button
               type="submit"
