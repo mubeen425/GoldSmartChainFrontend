@@ -19,7 +19,6 @@ function CommissionSettings(props) {
 
   const usr = store?.userReducer?.currentUser;
   useEffect(async () => {
- 
     if (!usr.is_admin) {
       props.history.push("/");
     }
@@ -35,24 +34,18 @@ function CommissionSettings(props) {
     if (solidPrice > 0 && solidPrice <= 100000) {
       let usr = await store?.userReducer?.currentUser;
 
-    
-
       const postData = {
         value: parseFloat(solidPrice),
       };
- 
+
       axiosInstance
         .post(`api/solidvalue/`, postData)
         .then((res) => {
-     
           setIsEditInput(false);
           successMessage("✔️ Solid Price Updated");
         })
-        .catch((err) => {
-       
-        });
+        .catch((err) => {});
     } else {
-    
       successMessage("❌ Invalid Amount");
     }
   };
@@ -63,12 +56,9 @@ function CommissionSettings(props) {
     axiosInstance
       .get(`api/solidvalue`)
       .then((res) => {
-     
         setSolidPrice(res?.data?.value);
       })
-      .catch((e) => {
-      
-      });
+      .catch((e) => {});
   }, []);
   return (
     <div>

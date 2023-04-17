@@ -31,6 +31,7 @@ const svg1 = (
 const UserList = (props) => {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store.userReducer);
+  const [isSearched, setIsSearched] = useState("");
   const [errors, setErrors] = useState({
     level1_reward: false,
     level2_reward: false,
@@ -63,7 +64,8 @@ const UserList = (props) => {
     }
     setUserRewards({
       ...userRewards,
-      [e.target.name]: e.target.value?.replace(/[^0-9]/g, ""),
+      [e.target.name]: e.target.value,
+      // ?.replace(/[^0-9]/g, ""),
     });
     setErrors({ ...errors, [e.target.name]: false });
   };
@@ -75,13 +77,13 @@ const UserList = (props) => {
     }
     setDefaultPer({
       ...defaultPer,
-      [e.target.name]: e.target.value?.replace(/[^0-9]/g, ""),
+      [e.target.name]: e.target.value,
+      // ?.replace(/[^0-9]/g, ""),
     });
     setErrors({ ...errors, [e.target.name]: false });
   };
 
   const handelChangeCheckBox = (e) => {
-
     if (e.target.checked) {
       setUserRewards({ ...userRewards, level: 2 });
     } else {
@@ -262,7 +264,7 @@ const UserList = (props) => {
         },
       })
     );
-  
+
     if (res.payload.data) {
       dispatch(getAdminDefaultPer());
       dispatch(allUsers());
@@ -330,15 +332,43 @@ const UserList = (props) => {
             Save Changes
           </Button>
         </div>
+        <div className="d-flex justify-content-between align-items-center p-3">
+          <input
+            type="text"
+            className="form-control search-field w-25"
+            placeholder="Search by user name or email"
+            value={isSearched}
+            onChange={(e) => setIsSearched(e.target.value)}
+          />
+        </div>
         <Col lg={12}>
           <TabelComponent
             cols={randerTable()}
-            data={[...userReducer?.allUsers].reverse().map((obj, index) => {
-              return {
-                ...obj,
-                count: index + 1,
-              };
-            })}
+            data={[...userReducer?.allUsers]
+              ?.filter((data) => {
+                if (isSearched === "") {
+                  return data;
+                } else if (
+                  data?.user?.user_name
+                    ?.toLowerCase()
+                    ?.includes(isSearched.toLowerCase())
+                ) {
+                  return data;
+                } else if (
+                  data?.user?.email
+                    ?.toLowerCase()
+                    ?.includes(isSearched.toLowerCase())
+                ) {
+                  return data;
+                }
+              })
+              .reverse()
+              .map((obj, index) => {
+                return {
+                  ...obj,
+                  count: index + 1,
+                };
+              })}
             tabeltitle={"Users List"}
             itemsPerPage={8}
           />

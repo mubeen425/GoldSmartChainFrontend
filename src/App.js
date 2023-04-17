@@ -57,6 +57,8 @@ function App(props) {
     }
   }, []);
 
+  console.log("window.location.origin", window.location.origin);
+
   if (
     store?.userReducer?.currentUser &&
     store?.userReducer?.currentUser !== null

@@ -16,7 +16,6 @@ function WithdrawalRequests(props) {
 
   const usr = JSON.parse(localStorage.getItem("user"));
   useEffect(async () => {
-
     if (!usr.is_admin) {
       props.history.push("/");
     }
@@ -24,14 +23,12 @@ function WithdrawalRequests(props) {
 
   useEffect(() => {
     axiosInstance.get(`${withdrawRequests}`).then((res) => {
-   
       setData(res.data);
     });
   }, []);
 
   const getWithdrawRequests = () => {
     axiosInstance.get(`${withdrawRequests}`).then((res) => {
-    
       setData(res.data);
     });
   };
@@ -45,13 +42,10 @@ function WithdrawalRequests(props) {
     axiosInstance
       .put(`api/withdraw/${id}`, postData)
       .then((res) => {
-
         setModalCentered(false);
         getWithdrawRequests();
       })
-      .catch((err) => {
-
-      });
+      .catch((err) => {});
   };
   const svg1 = (
     <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">

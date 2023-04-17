@@ -342,7 +342,7 @@ function Register(props) {
                           </h5>
                         )}
                         {errors.password && <div>{errors.password}</div>}
-                        {id && (
+                        {/* {id && (
                           <div className="form-group mb-3">
                             <label className="mb-1 ">
                               <strong>Referral Code</strong>
@@ -356,7 +356,7 @@ function Register(props) {
                               type="text"
                             />
                           </div>
-                        )}
+                        )} */}
                         {!isValidReferalCode && id && (
                           <h5 className="emailError" style={{ color: "red" }}>
                             Invalid Referral Code

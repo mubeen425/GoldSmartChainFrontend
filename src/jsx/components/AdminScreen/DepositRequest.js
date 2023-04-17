@@ -21,7 +21,6 @@ function DepositRequest(props) {
 
   const usr = store?.userReducer?.currentUser;
   useEffect(async () => {
-    
     if (!usr.is_admin) {
       props.history.push("/");
     }
@@ -31,21 +30,17 @@ function DepositRequest(props) {
     axiosInstance
       .get(`${depositRequests}`)
       .then((res) => {
-
         const pendindData = res.data.filter((x) => x.status === "pending");
         const otherData = res.data.filter((x) => x.status !== "pending");
 
         setPendingData(pendindData);
         setOtherData(otherData);
       })
-      .catch((error) => {
-       
-      });
+      .catch((error) => {});
   }, []);
 
   const getDepositRequests = () => {
     axiosInstance.get(`${depositRequests}`).then((res) => {
-
       const pendindData = res.data.filter((x) => x.status === "pending");
       const otherData = res.data.filter((x) => x.status !== "pending");
       setPendingData(pendindData);
@@ -66,13 +61,10 @@ function DepositRequest(props) {
     axiosInstance
       .put(`api/deposit/${id}`, postData)
       .then((res) => {
-     
         setModalCentered(false);
         getDepositRequests();
       })
-      .catch((err) => {
-    
-      });
+      .catch((err) => {});
   };
   const svg1 = (
     <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
@@ -277,10 +269,8 @@ function DepositRequest(props) {
       <Modal className="fade" show={modalCentered} centered>
         <Modal.Header>
           <Modal.Title className="w-100">
-            <h2 className="text-center w-100">
-            Reason
-              </h2>
-            </Modal.Title>
+            <h2 className="text-center w-100">Reason</h2>
+          </Modal.Title>
           <Button
             onClick={() => setModalCentered(false)}
             variant=""

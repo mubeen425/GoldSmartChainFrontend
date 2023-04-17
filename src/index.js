@@ -1,8 +1,8 @@
 import React from "react";
-import "./css/style-sheet.css"
+import "./css/style-sheet.css";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
 // import { store } from "./store/store";
@@ -19,11 +19,11 @@ ReactDOM.render(
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistedStore}> */}
       <SimpleReactLightbox>
-        <BrowserRouter >
+        <HashRouter>
           <ThemeContext>
             <App />
           </ThemeContext>
-        </BrowserRouter>
+        </HashRouter>
       </SimpleReactLightbox>
       {/* </PersistGate> */}
     </Provider>

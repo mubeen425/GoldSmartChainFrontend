@@ -59,7 +59,7 @@ const AdminSideBar = () => {
   //let scrollPosition = useScrollPosition();
 
   /// Path
-  let path = window.location.pathname;
+  let path = window.location.hash;
   path = path.split("/");
   path = path[path.length - 1];
   /// Active menu

@@ -58,7 +58,7 @@ const Markup = () => {
   const routes = [
     { url: "/", component: Home },
     { url: "deposit", component: Deposit },
-    { url: "withdrawl", component: Withdrawl },
+    { url: "withdrawal", component: Withdrawl },
     { url: "transaction-history", component: TransactionHistoryScreen },
     { url: "page-register/:id", component: SignUp },
     { url: "page-register", component: SignUp },
@@ -80,7 +80,7 @@ const Markup = () => {
     window.location.pathname.includes("page-register")
       ? true
       : false;
-  
+
   return (
     <>
       {coinReducer.isLoading && (

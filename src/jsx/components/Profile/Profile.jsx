@@ -219,7 +219,7 @@ const Profile = (props) => {
   };
   return (
     <Fragment>
-      <PageTitle activeMenu="Profile" motherMenu="App" />
+      <PageTitle activeMenu="Profile" motherMenu="Home" />
 
       <div className="row">
         <div className="col-lg-12 d-flex justify-content-center my-4">

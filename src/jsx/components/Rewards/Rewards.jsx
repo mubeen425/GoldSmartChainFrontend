@@ -146,7 +146,7 @@ const Rewards = () => {
       },
     ];
   };
-
+  console.log(" window.location.origin", window.location.origin);
   return (
     <>
       <PageTitle motherMenu="Home" activeMenu="Rewards" />
@@ -185,7 +185,9 @@ const Rewards = () => {
                 >
                   <CopyToClipboard
                     text={
+                      // "Goldsmartchain.com/#" +
                       window.location.origin +
+                      "/#" +
                       "/page-register/" +
                       userReducer?.currentUser?.referal_code
                     }
@@ -193,9 +195,13 @@ const Rewards = () => {
                     <div className="copy_clip">
                       <div className="copy_clip_text">
                         <span className="mx-1">Copy Your referral link :</span>
-                        {window.location.origin +
-                          "/page-register/" +
-                          userReducer?.currentUser?.referal_code}
+                        {
+                          // "Goldsmartchain.com/#" +
+                          window.location.origin +
+                            "/#" +
+                            "/page-register/" +
+                            userReducer?.currentUser?.referal_code
+                        }
                       </div>
                       <ContentCopyIcon
                         style={{ marginLeft: "10px", height: "18px" }}

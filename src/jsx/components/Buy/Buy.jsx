@@ -290,15 +290,14 @@ function Buy(props) {
                   className="border-0 w-100"
                   onWheel={(e) => e.target.blur()}
                 />
-                <div
-                // className={styles["tokenDiv"]}
-                >
-                  <Dropdown className="d-inline mx-2 ">
+                <div className={styles["tokenDiv"]}>
+                  <span>{drop2}</span>
+                  {/* <Dropdown className="d-inline mx-2 ">
                     <Dropdown.Toggle id="dropdown-autoclose-true px-2">
                       {drop2}
-                    </Dropdown.Toggle>
+                    </Dropdown.Toggle> */}
 
-                    {/* <Dropdown.Menu>
+                  {/* <Dropdown.Menu>
                       <Dropdown.Item onClick={(e) => handelSelect2("EUR")}>
                         EUR
                       </Dropdown.Item>
@@ -318,7 +317,7 @@ function Buy(props) {
                         HUF
                       </Dropdown.Item>
                     </Dropdown.Menu> */}
-                  </Dropdown>
+                  {/* </Dropdown> */}
                 </div>
               </div>
             </div>

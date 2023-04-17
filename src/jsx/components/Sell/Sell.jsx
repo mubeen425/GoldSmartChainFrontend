@@ -313,9 +313,9 @@ function Sell(props) {
                 />
               </span>
             </div>
-            <div className="col-xl-6 col-lg-6 m-auto  d-flex justify-content-between ">
-              <span>
-                Platform Fee =
+            <div className="col-xl-6 col-lg-6 m-auto  d-flex justify-content-center ">
+              {/* <span>
+                Gold Purchasing Price =
                 <CurrencyFormat
                   value={buyAmount.usd * 0.18}
                   displayType={"text"}
@@ -324,15 +324,14 @@ function Sell(props) {
                   prefix={symbol[drop2]}
                   fixedDecimalScale={true}
                   renderText={(value) => <span>{value}</span>}
-                />{" "}
-                {" (18%)"}
+                />
                 {/*                 
                 {symbol[drop2]}
                 {buyAmount.usd * 0.18} */}
-              </span>
+              {/* </span> */}
               <span className="d-flex">
                 <span className="mx-1">
-                  You will Receive =
+                  You will receive the Gold purchase price =
                   <CurrencyFormat
                     value={buyAmount.usd - buyAmount.usd * 0.18}
                     displayType={"text"}

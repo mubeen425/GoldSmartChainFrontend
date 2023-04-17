@@ -68,7 +68,7 @@ const SideBar = () => {
   //let scrollPosition = useScrollPosition();
 
   /// Path
-  let path = window.location.pathname;
+  let path = window.location.hash;
   path = path.split("/");
   path = path[path.length - 1];
   /// Active menu
@@ -100,7 +100,7 @@ const SideBar = () => {
     ],
     deposit = ["deposit"],
     portfolio = ["portfolio"],
-    withdrawl = ["withdrawl"],
+    withdrawal = ["withdrawal"],
     discover = ["discover"],
     buy = ["buy"],
     sell = ["sell"],
@@ -157,11 +157,11 @@ const SideBar = () => {
               </Link>
             </li>
           </ul>
-        
+
           <li className={`${deshBoard.includes(path) ? "mm-active" : ""}`}>
             <Link className="ai-icon" to="/">
               <div className="d-flex align-items-center">
-                <HomeIcon style={{ minWidth: "30px" }}  />
+                <HomeIcon style={{ minWidth: "30px" }} />
                 <div className="nav-text">Dashboard</div>
               </div>
             </Link>
@@ -193,8 +193,8 @@ const SideBar = () => {
               </div>
             </Link>
           </li>
-          <li className={`${withdrawl.includes(path) ? "mm-active" : ""}`}>
-            <Link className="ai-icon" to="/withdrawl">
+          <li className={`${withdrawal.includes(path) ? "mm-active" : ""}`}>
+            <Link className="ai-icon" to="/withdrawal">
               <div className="d-flex align-items-center">
                 <Payments style={{ minWidth: "30px" }} />
                 <div className="nav-text">Withdrawal</div>
