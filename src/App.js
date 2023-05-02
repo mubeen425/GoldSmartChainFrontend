@@ -86,7 +86,10 @@ function App(props) {
     );
   } else {
     return (
-      <div className="vh-100">
+      <div
+        // className="vh-100"
+        style={{ height: "100%" }}
+      >
         <Suspense
           fallback={
             <div id="preloader">

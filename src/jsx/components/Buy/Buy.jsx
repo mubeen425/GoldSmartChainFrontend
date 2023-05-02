@@ -46,7 +46,7 @@ function Buy(props) {
 
   const notifyTopRight = async (e) => {
     if (buyAmount.solid <= 0) {
-      errorMessage("❌ Invalid  solid amount(minimum amount required 1)");
+      errorMessage("❌ Invalid  solid (minimum amount required 1)");
       return;
     }
     e.preventDefault();

@@ -9,6 +9,7 @@ import { userSignUp } from "../../Redux/user";
 import { errorMessage } from "../../utils/message";
 import { Button, Modal } from "react-bootstrap";
 import { TbUserCheck } from "react-icons/tb";
+import goald from "../../images/goaldimage.jpeg";
 
 function Register(props) {
   const { id } = useParams();
@@ -179,9 +180,32 @@ function Register(props) {
 
   return (
     <>
-      <div className="authincation h-100 p-meddle">
-        <div className="container h-100">
-          <div className="row justify-content-center h-100 align-items-center">
+      {/* authincation p-meddle*/}
+      <div className="h-100 " style={{ background: "#3dabff48" }}>
+        <div>
+          <img src={goald} alt="" className="authincation22" />
+        </div>
+        <div className="container h-100 pt-5 pb-5">
+          <div className="d-flex justify-content-center flex-column">
+            <h1 className="emailError text-center">
+              A revolution of the crypto and monetary system
+            </h1>
+            <h3 className="text-center">Gold:Security for 6,000 years</h3>
+            <h4 className="text-center">
+              For more information please visit our home page .
+              <span>
+                {/* <a herf="https://standardingold.com">click here</a> */}
+                <a href="https://standardingold.com">click here</a>
+              </span>
+            </h4>
+            <h3 className="text-center">or</h3>
+            <h4 className="text-center">
+              Register here to buy and trade STAND - the gold-backed crypto
+              currency on its own independent blockchain. Decouple yourself from
+              inflation, stop the creeping expropriation!
+            </h4>
+          </div>
+          <div className="row justify-content-center h-100 align-items-center pt-5">
             <div className="col-md-6">
               <div className="authincation-content">
                 <div className="row no-gutters">
@@ -342,7 +366,7 @@ function Register(props) {
                           </h5>
                         )}
                         {errors.password && <div>{errors.password}</div>}
-                        {/* {id && (
+                        {id && (
                           <div className="form-group mb-3">
                             <label className="mb-1 ">
                               <strong>Referral Code</strong>
@@ -356,7 +380,7 @@ function Register(props) {
                               type="text"
                             />
                           </div>
-                        )} */}
+                        )}
                         {!isValidReferalCode && id && (
                           <h5 className="emailError" style={{ color: "red" }}>
                             Invalid Referral Code

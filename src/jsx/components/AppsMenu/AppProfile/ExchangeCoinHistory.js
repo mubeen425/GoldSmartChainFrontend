@@ -50,17 +50,17 @@ function ExchangeCoinHistory() {
       {
         title: "From",
         render: (rowData) => {
-          return <span >{rowData?.from.toUpperCase()}</span>;
+          return <span>{rowData?.from.toUpperCase()}</span>;
         },
       },
       {
         title: "To",
         render: (rowData) => {
-          return <span >{rowData?.to.toUpperCase()}</span>;
+          return <span>{rowData?.to.toUpperCase()}</span>;
         },
       },
       {
-        title: "SOLID Amount",
+        title: "SOLID",
         render: (rowData) => {
           return (
             <CurrencyFormat
@@ -75,7 +75,7 @@ function ExchangeCoinHistory() {
         },
       },
       {
-        title: "STAND Amount",
+        title: "STAND",
         render: (rowData) => {
           return (
             <CurrencyFormat

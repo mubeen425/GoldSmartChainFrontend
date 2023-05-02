@@ -78,7 +78,7 @@ function SolidCoinHistory() {
         },
       },
       {
-        title: "SOLID Amount",
+        title: "SOLID",
         render: (rowData) => {
           return (
             <CurrencyFormat

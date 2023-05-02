@@ -86,13 +86,11 @@ function Exchange(props) {
   const convertCoinAPI = async (e) => {
     e.preventDefault();
     if (exchange[0].type === "SOLID" && exchange[0].value < 0.000001) {
-      errorMessage(
-        "❌ Invalid  solid amount(minimum amount required 0.000001)"
-      );
+      errorMessage("❌ Invalid  solid(minimum amount required 0.000001)");
       return;
     }
     if (exchange[0].type === "STAND" && exchange[0].value < 3) {
-      errorMessage("❌ Invalid  stand amount(minimum amount required 3)");
+      errorMessage("❌ Invalid  stand(minimum amount required 3)");
       return;
     }
 
